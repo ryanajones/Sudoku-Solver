@@ -17,14 +17,15 @@ module.exports = function (app) {
     }
 
     // Check if puzzle contains values that are not numbers or periods
-    const numberOrPeriodRegex = /[^.0-9]/;
-    if (numberOrPeriodRegex.test(puzzle)) {
-      return res.json({ error: 'Invalid characters in puzzle' });
+    const invalidCharacters = 'Invalid characters in puzzle';
+    if (solver.validate(puzzle) === invalidCharacters) {
+      return res.json({ error: invalidCharacters });
     }
 
-    // Check if puzzle is greater or less than 81
-    if (puzzle.length > 81 || puzzle.length < 81) {
-      return res.json({ error: 'Expected puzzle to be 81 characters long' });
+    // Check if puzzle is greater or less than 81 characters
+    const puzzleLength = 'Expected puzzle to be 81 characters long';
+    if (solver.validate(puzzle) === puzzleLength) {
+      return res.json({ error: puzzleLength });
     }
 
     // Check if coordinate points to a cell
@@ -70,10 +71,10 @@ module.exports = function (app) {
       return res.json({ error: 'Invalid characters in puzzle' });
     }
 
-    // Check if puzzle string is greater or less than 81 characters
-    // in length
-    if (puzzle.length > 81 || puzzle.length < 81) {
-      return res.json({ error: 'Expected puzzle to be 81 characters long' });
+    // Check if puzzle is greater or less than 81 characters
+    const puzzleLength = 'Expected puzzle to be 81 characters long';
+    if (solver.validate(puzzle) === puzzleLength) {
+      return res.json({ error: puzzleLength });
     }
 
     // Solve the given puzzle string
@@ -82,7 +83,7 @@ module.exports = function (app) {
       return res.json({ solution: solutionString });
     }
 
-    // Respond if puzzle is invalid or cannot be solved
+    // Check if puzzle is invalid or cannot be solved
     if (!solutionString) {
       return res.json({ error: 'Puzzle cannot be solved' });
     }

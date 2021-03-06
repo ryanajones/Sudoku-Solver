@@ -1,42 +1,90 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 class SudokuSolver {
-  validate(puzzleString) {}
+  validate(puzzleString) {
+    // Check if puzzle string is greater or less than 81 characters
+    // in length
+    const puzzleLength = 'Expected puzzle to be 81 characters long';
+    if (puzzleString.length > 81 || puzzleString.length < 81) {
+      return puzzleLength;
+    }
 
-  checkRowPlacement(puzzleString, row, column, value) {}
+    // Check if puzzle contains values that are not numbers or periods
+    const invalidCharacters = 'Invalid characters in puzzle';
+    const numberOrPeriodRegex = /[^.0-9]/;
+    if (numberOrPeriodRegex.test(puzzleString)) {
+      return invalidCharacters;
+    }
 
-  checkColPlacement(puzzleString, row, column, value) {}
+    return true;
+  }
 
-  checkRegionPlacement(puzzleString, row, column, value) {}
+  // Turn puzzleString into array of rows and cols
+  generateBoard(puzzleString) {
+    const puzzleStringToArray = puzzleString.split('');
+    const board = [[], [], [], [], [], [], [], [], []];
+
+    let boardRow = -1;
+    for (let i = 0; i < puzzleStringToArray.length; i++) {
+      if (i % 9 === 0) {
+        boardRow += 1;
+      }
+      board[boardRow].push(puzzleStringToArray[i]);
+    }
+    return board;
+  }
+
+  checkRowPlacement(puzzleBoard, row, value) {
+    // Check if value is unique in row
+    for (let j = 0; j < 9; j++) {
+      if (puzzleBoard[row][j] === value) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  checkColPlacement(puzzleBoard, col, value) {
+    // Check if value is unique in column
+    for (let i = 0; i < 9; i++) {
+      if (puzzleBoard[i][col] === value) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  checkRegionPlacement(puzzleBoard, row, col, value) {
+    // Check if value is unique in box
+    const boxTopRow = parseInt(row / 3) * 3; // Returns index of top row of box (0, 3, or 6)
+    const boxLeftColumn = parseInt(col / 3) * 3; // Returns index of left column of box (0, 3 or 6)
+    for (let k = boxTopRow; k < boxTopRow + 3; k++) {
+      for (let l = boxLeftColumn; l < boxLeftColumn + 3; l++) {
+        if (puzzleBoard[k][l] === value) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 
   solve(puzzleString) {
+    // Validate for testing
+    if (this.validate(puzzleString) !== true) {
+      return false;
+    }
+
     // Check to see if value is safe to place in current row, column, and box region
     const isSafe = (board, row, col, value) => {
-      // Check if value is unique in column
-      for (let i = 0; i < 9; i++) {
-        if (board[i][col] === value) {
-          return false;
-        }
+      if (this.checkRowPlacement(board, row, value) === false) {
+        return false;
       }
-
-      // Check if value is unique in row
-      for (let j = 0; j < 9; j++) {
-        if (board[row][j] === value) {
-          return false;
-        }
+      if (this.checkColPlacement(board, col, value) === false) {
+        return false;
       }
-
-      // Check if value is unique in box
-      const boxTopRow = parseInt(row / 3) * 3; // Returns index of top row of box (0, 3, or 6)
-      const boxLeftColumn = parseInt(col / 3) * 3; // Returns index of left column of box (0, 3 or 6)
-      for (let k = boxTopRow; k < boxTopRow + 3; k++) {
-        for (let l = boxLeftColumn; l < boxLeftColumn + 3; l++) {
-          if (board[k][l] === value) {
-            return false;
-          }
-        }
+      if (this.checkRegionPlacement(board, row, col, value) === false) {
+        return false;
       }
-
       return true;
     };
 
@@ -78,28 +126,11 @@ class SudokuSolver {
       return false;
     };
 
-    // Turn puzzleString into array of rows and cols
-    const generateBoard = (values) => {
-      const board = [[], [], [], [], [], [], [], [], []];
-
-      let boardRow = -1;
-      for (let i = 0; i < values.length; i++) {
-        if (i % 9 === 0) {
-          boardRow += 1;
-        }
-        board[boardRow].push(values[i]);
-      }
-      return board;
-    };
-
     const solveSudoku = () => {
-      const puzzleStringToArray = puzzleString.split('');
+      const puzzleBoardArray = this.generateBoard(puzzleString);
+      const solution = solveFromCell(puzzleBoardArray, 0, 0);
 
-      const originalBoard = generateBoard(puzzleStringToArray);
-
-      const solution = solveFromCell(originalBoard, 0, 0);
-
-      if (solution === false) return;
+      if (solution === false) return false;
 
       let solutionString = '';
       for (let i = 0; i < solution.length; i++) {
@@ -107,7 +138,6 @@ class SudokuSolver {
           solutionString += solution[i][j].toString();
         }
       }
-
       return solutionString;
     };
     return solveSudoku();
@@ -129,6 +159,7 @@ class SudokuSolver {
 
       // Split coordinate string into array
       const coordinateArray = coordinate.split('');
+      coordinateArray[1] -= 1;
 
       // Switch out the coordinate's letter row to a number
       const rowNum = [0, 1, 2, 3, 4, 5, 6, 7, 8];
@@ -142,9 +173,6 @@ class SudokuSolver {
 
       // Check to see if the inquired value and coordinate is equal
       // to the same value and coordinate on the completed board
-
-      coordinateArray[1] -= 1;
-
       if (value === completedBoard[coordinateArray[0]][coordinateArray[1]]) {
         return true;
       }
@@ -154,28 +182,25 @@ class SudokuSolver {
       const placementInvalid = [];
 
       // Check if value is unique in column
-      for (let i = 0; i < 9; i++) {
-        if (completedBoard[i][coordinateArray[1]] === value) {
-          placementInvalid.push('column');
-        }
+      if (!this.checkColPlacement(completedBoard, coordinateArray[1], value)) {
+        placementInvalid.push('column');
       }
 
       // Check if value is unique in row
-      for (let j = 0; j < 9; j++) {
-        if (completedBoard[coordinateArray[0]][j] === value) {
-          placementInvalid.push('row');
-        }
+      if (!this.checkRowPlacement(completedBoard, coordinateArray[0], value)) {
+        placementInvalid.push('row');
       }
 
       // Check if value is unique in box
-      const boxTopRow = parseInt(coordinateArray[0] / 3) * 3; // Returns index of top row of box (0, 3, or 6)
-      const boxLeftColumn = parseInt(coordinateArray[1] / 3) * 3; // Returns index of left column of box (0, 3 or 6)
-      for (let k = boxTopRow; k < boxTopRow + 3; k++) {
-        for (let l = boxLeftColumn; l < boxLeftColumn + 3; l++) {
-          if (completedBoard[k][l] === value) {
-            placementInvalid.push('region');
-          }
-        }
+      if (
+        !this.checkRegionPlacement(
+          completedBoard,
+          coordinateArray[0],
+          coordinateArray[1],
+          value
+        )
+      ) {
+        placementInvalid.push('region');
       }
 
       return placementInvalid;
