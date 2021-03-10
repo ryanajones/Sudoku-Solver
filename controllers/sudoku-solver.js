@@ -181,26 +181,35 @@ class SudokuSolver {
       // combination of the three where there was conflict
       const placementInvalid = [];
 
+      // Return false if coordinate is already taken by a number
+      const takenSpot = completedBoard[coordinateArray[0]][coordinateArray[1]];
+      if (takenSpot !== '.' && takenSpot !== value) {
+        completedBoard[coordinateArray[0]][coordinateArray[1]] = '.';
+      }
+
       // Check if value is unique in column
-      if (!this.checkColPlacement(completedBoard, coordinateArray[1], value)) {
-        placementInvalid.push('column');
+      for (let i = 0; i < 9; i++) {
+        if (completedBoard[i][coordinateArray[1]] === value) {
+          placementInvalid.push('column');
+        }
       }
 
       // Check if value is unique in row
-      if (!this.checkRowPlacement(completedBoard, coordinateArray[0], value)) {
-        placementInvalid.push('row');
+      for (let j = 0; j < 9; j++) {
+        if (completedBoard[coordinateArray[0]][j] === value) {
+          placementInvalid.push('row');
+        }
       }
 
       // Check if value is unique in box
-      if (
-        !this.checkRegionPlacement(
-          completedBoard,
-          coordinateArray[0],
-          coordinateArray[1],
-          value
-        )
-      ) {
-        placementInvalid.push('region');
+      const boxTopRow = parseInt(coordinateArray[0] / 3) * 3; // Returns index of top row of box (0, 3, or 6)
+      const boxLeftColumn = parseInt(coordinateArray[1] / 3) * 3; // Returns index of left column of box (0, 3 or 6)
+      for (let k = boxTopRow; k < boxTopRow + 3; k++) {
+        for (let l = boxLeftColumn; l < boxLeftColumn + 3; l++) {
+          if (completedBoard[k][l] === value) {
+            placementInvalid.push('region');
+          }
+        }
       }
 
       return placementInvalid;
@@ -214,7 +223,7 @@ class SudokuSolver {
     // with array value of strings representing where the
     // conflict is
     const validationObject = {};
-    if (checkIfValid === true) {
+    if (checkIfValid === true || checkIfValid.length === 0) {
       validationObject.valid = true;
       return validationObject;
     }

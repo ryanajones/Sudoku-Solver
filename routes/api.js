@@ -43,12 +43,7 @@ module.exports = function (app) {
     // Check if the given value is true for the given coordinate.
     // Return true or false, and if false, provide if the conflict
     // is in row, column, region, or all three
-    const solutionString = solver.solve(puzzle);
-    const checkIfValid = solver.checkPlacement(
-      coordinate,
-      value,
-      solutionString
-    );
+    const checkIfValid = solver.checkPlacement(coordinate, value, puzzle);
 
     if (checkIfValid.valid === true) {
       return res.json({ valid: checkIfValid.valid });
@@ -65,16 +60,16 @@ module.exports = function (app) {
       return res.json({ error: 'Required field missing' });
     }
 
-    // Check if puzzle contains values that are not numbers or periods
-    const numberOrPeriodRegex = /[^.0-9]/g;
-    if (numberOrPeriodRegex.test(puzzle)) {
-      return res.json({ error: 'Invalid characters in puzzle' });
-    }
-
     // Check if puzzle is greater or less than 81 characters
     const puzzleLength = 'Expected puzzle to be 81 characters long';
     if (solver.validate(puzzle) === puzzleLength) {
       return res.json({ error: puzzleLength });
+    }
+
+    // Check if puzzle contains values that are not numbers or periods
+    const numberOrPeriodRegex = /[^.0-9]/g;
+    if (numberOrPeriodRegex.test(puzzle)) {
+      return res.json({ error: 'Invalid characters in puzzle' });
     }
 
     // Solve the given puzzle string
