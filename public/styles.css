@@ -1,25 +1,128 @@
-code {
-  background: #d0d0d5;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap");
+:root {
+  --light-green: #448d76;
+  --dark-green: #093426;
+  --yellow: #fcba12;
+  --purple: #ae0d7a;
+  --cream: #f7edd4;
+  --text-black: rgb(24, 24, 24);
+  --text-white: white;
 }
 
-.container {
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: var(--light-green);
+}
+
+body header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.form-container {
+body header h1 {
+  font-size: 60px;
+}
+
+body header h1:first-of-type {
+  color: var(--yellow);
+}
+
+body header h1:last-of-type {
+  color: var(--dark-green);
+}
+
+body .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  width: 90%;
+  max-width: 1150px;
+  margin: 30px auto 0 auto;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: var(--cream);
+  -webkit-box-shadow: 0 13px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 13px 10px rgba(0, 0, 0, 0.2);
+}
+
+body .container .form-container {
   max-width: 95%;
-  -ms-flex-item-align: start;
-  align-self: flex-start;
 }
 
-textarea {
+body .container .form-container #solve-form textarea {
   width: 100%;
+  margin-bottom: 5px;
+  padding: 10px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 13px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 13px 10px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.1em;
+}
+
+.btn {
+  display: inline-block;
+  margin: 5px 0;
+  padding: 7px 15px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background: var(--dark-green);
+  font-weight: 400;
+  font-size: 1em;
+  line-height: 1.2;
+  letter-spacing: 0.00em;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn:hover {
+  -webkit-transform: scale(0.98);
+          transform: scale(0.98);
+}
+
+input[type="text"] {
+  width: 100px;
+  margin: 5px 0;
+  padding: 7px 10px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  font-size: 1em;
+  line-height: 1.2;
+}
+
+/* background-color: transparent;
+border: 0;
+border-radius: 0;
+color: inherit;
+appearance: none;
+
+// make sure properties affecting height have same value
+padding: 0.2em 0.2em;
+border-width: 2px;
+border-style: solid;
+ */
+input[type="text"]:focus {
+  outline: none;
 }
 
 #user-stories {
@@ -38,8 +141,8 @@ textarea {
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -ms-flex-direction: row;
-  flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
   margin-left: 20px;
 }
 
@@ -142,13 +245,13 @@ td {
   .container {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
   }
   .form-container {
     -ms-flex-item-align: center;
-    -ms-grid-row-align: center;
-    align-self: center;
+        -ms-grid-row-align: center;
+        align-self: center;
   }
 }
 /*# sourceMappingURL=styles.css.map */
