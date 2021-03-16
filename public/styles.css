@@ -12,8 +12,6 @@
 *,
 *:before,
 *:after {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
@@ -54,11 +52,15 @@ body .container {
   display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 90%;
   max-width: 1150px;
+  height: auto;
   margin: 30px auto 0 auto;
   border-radius: 15px;
-  padding: 10px;
+  padding: 30px;
   background-color: var(--cream);
   -webkit-box-shadow: 0 13px 10px rgba(0, 0, 0, 0.2);
           box-shadow: 0 13px 10px rgba(0, 0, 0, 0.2);
@@ -66,11 +68,16 @@ body .container {
 
 body .container .form-container {
   max-width: 95%;
+  margin-bottom: 10px;
+}
+
+body .container .form-container #solve-form {
+  margin-top: 20px;
 }
 
 body .container .form-container #solve-form textarea {
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 25px;
   padding: 10px;
   border: 1px solid lightgray;
   border-radius: 5px;
@@ -79,9 +86,31 @@ body .container .form-container #solve-form textarea {
   letter-spacing: 0.1em;
 }
 
+body .container .form-container #solve-form textarea:focus {
+  outline: none;
+}
+
+body .container .form-container #check-form {
+  margin-bottom: 20px;
+}
+
+body .container .form-container #check-form p:first-of-type {
+  margin: 0px 0 10px 0;
+}
+
+body .container .form-container #check-form p:last-of-type {
+  margin: 0px 0 18px 0;
+}
+
+body .container .form-container #error {
+  display: none;
+  padding: 7px 15px;
+  background-color: #fff;
+}
+
 .btn {
   display: inline-block;
-  margin: 5px 0;
+  margin-bottom: 15px;
   padding: 7px 15px;
   border: none;
   border-radius: 5px;
@@ -90,7 +119,7 @@ body .container .form-container #solve-form textarea {
   font-weight: 400;
   font-size: 1em;
   line-height: 1.2;
-  letter-spacing: 0.00em;
+  letter-spacing: 0em;
   cursor: pointer;
   outline: none;
 }
@@ -110,23 +139,8 @@ input[type="text"] {
   line-height: 1.2;
 }
 
-/* background-color: transparent;
-border: 0;
-border-radius: 0;
-color: inherit;
-appearance: none;
-
-// make sure properties affecting height have same value
-padding: 0.2em 0.2em;
-border-width: 2px;
-border-style: solid;
- */
 input[type="text"]:focus {
   outline: none;
-}
-
-#user-stories {
-  font-size: 1.2em;
 }
 
 #error-msg {
@@ -162,7 +176,7 @@ td {
 }
 
 .yAxisLegend {
-  margin-top: 50px;
+  margin-top: 45px;
   text-align: right;
   font-weight: bold;
 }
