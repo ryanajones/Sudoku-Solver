@@ -8,7 +8,7 @@ HTML SCSS JavaScript Node.js Express.js Chai.js Mocha
 
 ## Deploy on Repl
 
-https://replit.com/@ryanajones/Sukoku-Solver#README.md
+https://replit.com/@ryanajones/Sudoku-Solver#README.md
 
 ## Screenshots
 
