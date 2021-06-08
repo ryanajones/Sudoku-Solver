@@ -1,10 +1,10 @@
 # Sudoku Solver
 
-> This is a full stack sudoku solver web app that can be used to solve a sudoku puzzle game. Enter the puzzle in the textarea and press solve for a solution. Node.js and Express.js are used to create a web server with the HTTP module. The back-end handles the client side HTTP requests, computes necessary algorithms to solve the puzzle and check for errors, then provides a response. The Chai.js and Mocha testing frameworks are used for unit and function testing.
+A web application capable of solving a Sudoku puzzle game. Enter the puzzle in the textarea and press solve for a solution. Node and Express are used to create a web server with with Node's HTTP module. An implemented RESTful API on the back-end handles the client side HTTP requests, computes necessary algorithms to solve the puzzle, then provides a response. The Chai and Mocha testing tools are used for unit and function testing.
 
 ## Technologies Used
 
-HTML SCSS JavaScript Node.js Express.js Chai.js Mocha
+HTML SCSS JavaScript NodeJS ExpressJS Chai Mocha
 
 ## Deploy on Repl
 
